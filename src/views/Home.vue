@@ -1,18 +1,42 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <table>
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Nombre</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="pelicula in peliculas" :key="pelicula.id">
+          <td>{{pelicula.id}}</td>
+          <td>{{pelicula.nombre}}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
 
 export default {
   name: 'Home',
-  components: {
-    HelloWorld
+  data() {
+    return {
+      peliculas: [],
+      api: 'http://localhost/codeigniter/index.php/welcome'
+    }
+  },
+  mounted() {
+    this.obtenerPeliculas()
+  },
+  methods: {
+    obtenerPeliculas() {
+      this.axios.get(this.api+'/peliculas').then(response => {
+        this.peliculas = response.data
+        console.log(this.peliculas)
+      })
+    }
   }
 }
 </script>
